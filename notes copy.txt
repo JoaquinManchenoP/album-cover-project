@@ -1,0 +1,85 @@
+Nathan Bradley: Notes on getting an access token to Spotify API
+
+First: enter OAuth parameter query into browser, accessing Spotify's authorization software, which will redirect you to one of my old CSCI 115 pages (I chose this page purely out of convenience, and it can be changed later)
+
+The parameter query is as follows:
+
+***********
+
+
+
+https://accounts.spotify.com/authorize?client_id=3c89b357d36647f2b058a16d816e88a8&scope=playlist-read-private&response_type=code&redirect_uri=http%3A%2F%2Fbradleyna.stu.cofc.edu%2F115%2F
+
+
+
+***********
+
+This query contains a Base64 encoded version of the Client ID and the Client Secret, the scope of the access that will be granted, the response type of the redirect, and the URLencoded url for the redirect website
+
+Second: in the search bar of the redirect website, next to the page's url, should be "code=..." This code is only valid for a limited time, so what comes next must be done quickly.
+
+Into this cURL command, replace the "code" parameter with the value given by the redirect page, and execute the entire cURL command in your computer's console. DO NOT alter anything else about the cURL command.
+
+The cURL command is as follows:
+
+***********
+
+
+
+curl -H "Authorization: Basic M2M4OWIzNTdkMzY2NDdmMmIwNThhMTZkODE2ZTg4YTg6ODIwYjFiZmExMTBkNGMyMjhmOTY1YWUxZDQxYjJmY2Y=" -d grant_type=authorization_code -d code=AQCsOICAsUlDmfazskUCKRoWhOllMcHoHkecLWA5eNd-6qdiXv_eaa29-kbfVM7NMgeVVZb6-mfKi3MBt97tW3OjZRwj19579B6bUPsdlsYvrU8B6Cc6jGC4HzChzNVN_63F_yvoXjGBDxg4JC9d0e5-mI8_ESJmXzjuU1ZxKGcpfRnfajTcxpbM0UO4UYsaPvIyV1qLvu6KP2A8Bg -d redirect_uri=http%3A%2F%2Fbradleyna.stu.cofc.edu%2F115%2F https://accounts.spotify.com/api/token
+
+
+
+***********
+
+If everything has been entered correctly, your console should present your with this JSON code of your access token. This is your access to Spotify's API, and it will temporarily allow you to access private playlist data from spotify.
+
+This JSON code should then be entered into your Node.js server file
+
+It should look something like this:
+
+***********
+
+
+
+{"access_token":"BQDXGaqg143UD0fqP6eJOBFwqJUcrEsuT-5Vz_43tjdKRV3jkfcYRNcVk0TAlosX5cnE1FnbNHgsDmSJPP54ldQI5EI6cVARQGh6d15xUl8OGp0SYXgV5kM_NrXIRQKiZt6t30Dz8UHnrjON7B0SINLo4-rf","token_type":"Bearer","expires_in":3600,"refresh_token":"AQANvEaqJ1zxCtqL74t6VWhudBF3vPr-c8wnOvf3tWslnS6T6gxN_15KkXtAyHJzXqWpbLVYhxoCqqH8R-FMq7WPY_3-4jXHQCvPqi8J3NgBiQ68we59IWYtQ9DkpNWh5gA","scope":"playlist-read-private"}
+
+
+
+***********
+
+Third: To get audio features for a single Spotify track, go to https://developer.spotify.com/console/get-audio-features-track/
+
+Enter your access token and the code gotten from the track's Spotify URI (available on Spotify app), then copy the cURL command from the website to your console or simply run it in the simulated online console provided on the website.
+
+The result is JSON code denoting the different Spotify audio features of your selected track.
+
+***********
+
+
+
+EXAMPLE: Let It Be - The Beatles
+id: 7iN1s7xHE4ifF5povM6A48
+
+{
+  "danceability" : 0.443,
+  "energy" : 0.403,
+  "key" : 0,
+  "loudness" : -8.339,
+  "mode" : 1,
+  "speechiness" : 0.0322,
+  "acousticness" : 0.631,
+  "instrumentalness" : 0,
+  "liveness" : 0.111,
+  "valence" : 0.410,
+  "tempo" : 143.462,
+  "type" : "audio_features",
+  "id" : "7iN1s7xHE4ifF5povM6A48",
+  "uri" : "spotify:track:7iN1s7xHE4ifF5povM6A48",
+  "track_href" : "https://api.spotify.com/v1/tracks/7iN1s7xHE4ifF5povM6A48",
+  "analysis_url" : "https://api.spotify.com/v1/audio-analysis/7iN1s7xHE4ifF5povM6A48",
+  "duration_ms" : 243027,
+  "time_signature" : 4
+}
+
+reference: https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/
