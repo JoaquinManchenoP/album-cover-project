@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- This is the redirect page, which will access its own URL for an OAuth code, then run cURL commands in the terminal to gain access to the playlist image -->
+        <meta charset="UTF-8"/>
+        <title>Redirect</title>
+    </head>
+    
+    <body>
+        <script>            
+            function accessURLCode(){
+                var url = window.location.href;
+                var codeIndex = url.indexOf('=')+1;
+                var code = url.substring(codeIndex)
+                
+                return code;
+            }
+            
+            function getURI(){
+                var raw = document.getElementById("uri").value;
+                var uriIndex = raw.lastIndexOf(':') + 1;
+                var uri = raw.substring(uriIndex);
+                
+                return uri;
+            }
+            
+            function authorize(){
+                var code = accessURLCode();
+                var uri = getURI();
+                console.log(code);
+                console.log(uri);
+            }
+        </script>
+        
+        <form>
+            <label for = "uri">Spotify URI: </label>
+            <input type = "text" id = "uri" />
+            <div onclick = "authorize()">Click Me!</div>
+        </form>
+        
+        <p>
+            Your code and URI should appear in the console.
+        </p>
+    </body>
