@@ -4,41 +4,56 @@
         <!-- This is the redirect page, which will access its own URL for an OAuth code, then run cURL commands in the terminal to gain access to the playlist image -->
         <meta charset="UTF-8"/>
         <title>Redirect</title>
+        
+        <script src = "jquery-3.5.1.js" ></script>
     </head>
     
     <body>
-        <script>            
-            function accessURLCode(){
+        <script>  
+            //take redirect URL and extract access token
+            function getAccessToken(){
                 var url = window.location.href;
-                var codeIndex = url.indexOf('=')+1;
-                var code = url.substring(codeIndex)
-                
-                return code;
+                var tokenIndex = url.indexOf('=')+1;
+                var tokenEndIndex = url.indexOf('&');
+                var token = url.substring(tokenIndex, tokenEndIndex);
+                return token;
             }
             
+            //get user-entered URI
             function getURI(){
                 var raw = document.getElementById("uri").value;
                 var uriIndex = raw.lastIndexOf(':') + 1;
                 var uri = raw.substring(uriIndex);
-                
                 return uri;
             }
             
             function authorize(){
-                var code = accessURLCode();
-                var uri = getURI();
-                console.log(code);
-                console.log(uri);
+                var token = getAccessToken();
+                var playlist = getURI();
+                console.log(token);
+                //test: spotify:playlist:6yy1qCi95Z7HqHdphFlgn3
+                
+                $.ajax({
+                    url: "https://api.spotify.com/v1/playlists/"+ playlist +"/images",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    success: function(response){
+                        document.getElementById("playlistImage").src = response[1].url;
+                    }
+                })
             }
         </script>
         
         <form>
             <label for = "uri">Spotify URI: </label>
-            <input type = "text" id = "uri" />
+            <input type = "text" id = "uri">
             <div onclick = "authorize()">Click Me!</div>
         </form>
         
         <p>
             Your code and URI should appear in the console.
         </p>
+        
+        <img id = "playlistImage">
     </body>
