@@ -35,6 +35,7 @@
                 
                 $.ajax({
                     url: "https://api.spotify.com/v1/playlists/"+ playlist +"/images",
+                    dataType: "json",
                     headers: {
                         "Authorization": "Bearer " + token
                     },
@@ -52,7 +53,7 @@
         </form>
         
         <p>
-            Your code and URI should appear in the console.
+            Your token should appear in the console.
         </p>
         
         <img id = "playlistImage">
