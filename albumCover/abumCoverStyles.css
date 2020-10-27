@@ -1,0 +1,17 @@
+.card-base {
+  width: 350px;
+  height: 500px;
+}
+
+.card-one {
+  background-color: #a405c4;
+}
+.card-two {
+  background-color: #a405c4;
+}
+.card-three {
+  background-color: #a405c4;
+}
+.card-four {
+  background-color: red;
+}

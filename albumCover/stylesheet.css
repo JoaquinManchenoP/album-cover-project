@@ -1,0 +1,65 @@
+.card-container {
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.card-base {
+  width: 235px;
+  height: 210px;
+  margin: 20px;
+  border-radius: 50px;
+  box-shadow: 8px 3px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card-one {
+  background-color: #023047;
+}
+.card-two {
+  background-color: #023047;
+}
+.card-three {
+  background-color: #023047;
+}
+.card-four {
+  background-color: #023047;
+}
+.image-one {
+  width: 235px;
+  height: 155px;
+  border-radius: 50px;
+}
+.image-two {
+  width: 235px;
+  height: 155px;
+  border-radius: 50px;
+}
+.image-three {
+  width: 235px;
+  height: 155px;
+  border-radius: 50px;
+}
+.image-four {
+  width: 235px;
+  height: 155px;
+  border-radius: 50px;
+}
+.background {
+  background-color: #8ecae6;
+  width: 1300px;
+  height: 790px;
+  margin-left: 160px;
+  border-radius: 50px;
+
+  justify-content: center;
+  box-shadow: 8px 3px 20px rgba(0, 0, 0, 0.5);
+}
+
+.result_container {
+  background: url("./images/spotify_logo.jpg");
+  width: 750px;
+  height: 490px;
+  margin-left: 260px;
+  border-radius: 50px;
+  box-shadow: 8px 3px 20px rgba(0, 0, 0, 0.5);
+}
