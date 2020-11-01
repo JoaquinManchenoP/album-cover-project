@@ -1,16 +1,222 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
       <meta charset="utf-8" />
         <title>Avg Img Album Website</title>
         <style>
-            .hidden { display: none; }
+            .hidden { 
+              display: none;
+              background-image: url("Abbey Road Dropbox");
+            }
+@supports (mix-blend-mode: multiply) {
+            .demo {
+              /*position: relative; 
+
+              background-image: url("Abbey Road Dropbox"), url("Abbey Road Dropbox"), url("Abbey Road Dropbox"), url("Abbey Road Dropbox"), url("Abbey Road Dropbox"), url("Abbey Road Dropbox");
+              background-size: 200%, 80%, 60%, 50%, 40%, 100%;
+              background-position: 50%, 80%, 30%, 0;
+              background-blend-mode: overlay;
+              background-repeat: no-repeat; */
+
+              
+              background-image: url("Abbey Road Dropbox"); 
+              filter: hue-rotate(70deg) 
+                      contrast(100%) 
+                      saturate(800%) 
+                      invert(90%) 
+                      brightness(95%) 
+                      drop-shadow(8px 8px 10px) ;
+
+                      position: relative;
+                overflow: hidden;
+                background-color: magenta;
+                background-blend-mode: screen;
+              }
+
+                      .demo:before, .demo:after {
+                display: block;
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: inherit;
+                mix-blend-mode: multiply;
+                transform: scale(0.80);
+              }
+              .demo:before {
+                background-color: yellow;
+                background-blend-mode: screen;
+                transform-origin: top left;
+              }
+              .demo:after {
+                background-color: cyan;
+                background-blend-mode: screen;
+                transform-origin: bottom right;
+              }
+            }
+
+            .canvas {
+              filter: hue-rotate(270deg)
+                      drop-shadow(8px 8px 10px) ;
+            }
+
+            .canvas2 {
+              filter: hue-rotate(270deg)
+                      drop-shadow(8px 8px 10px) ;
+            }
+
+            .canvas3 {
+              filter: hue-rotate(270deg)
+                      drop-shadow(8px 8px 10px) ;
+            }
+
+            .canvas4 {
+              filter: hue-rotate(270deg)
+                      drop-shadow(8px 8px 10px) ;
+            }
+
+            .compCanvas {
+              filter: blur(0) 
+                      brightness(100%) 
+                      contrast(800%) 
+                      drop-shadow(8px 8px 10px) 
+                      grayscale(0%) 
+                      hue-rotate(120deg) 
+                      invert(0%) 
+                      opacity(100%) 
+                      saturate(100%) 
+                      sepia(0%);
+            }
+          
+
+        /* ---------------selective-color--effect------------------*/
+
+            /*
+
+
+            @supports (filter: brightness(3)) and (mix-blend-mode: color) {
+      
+              .demo:before, .demo:after {
+                display: block;
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: inherit;
+                background-color: red;
+                background-blend-mode: screen;
+                mix-blend-mode: color;
+                filter: brightness(3);
+              }
+            }
+
+        /* -------------------collage-effect------------------------*/
+        /*
+
+
+          @supports (background-blend-mode: overlay) {
+            .demo {
+              background-image: url("Abbey Road Dropbox"), url("Abbey Road Dropbox"), url("Abbey Road Dropbox"), url("Abbey Road Dropbox"), url("Abbey Road Dropbox"), url("Abbey Road Dropbox");
+              background-size: 200%, 80%, 60%, 50%, 40%, 100%;
+              background-position: 50%, 80%, 30%, 0;
+              background-blend-mode: overlay;
+              background-repeat: no-repeat;
+            }
+          }
+
+        /* ------------------Hallucination effect ----------------- */
+        /*
+
+          @supports (mix-blend-mode: multiply) {
+              .demo {
+                position: relative;
+                overflow: hidden;
+                background-color: magenta;
+                background-blend-mode: screen;
+              }
+              .demo:before, .demo:after {
+                display: block;
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: inherit;
+                mix-blend-mode: multiply;
+                transform: scale(0.90);
+              }
+              .demo:before {
+                background-color: yellow;
+                background-blend-mode: screen;
+                transform-origin: top left;
+              }
+              .demo:after {
+                background-color: cyan;
+                background-blend-mode: screen;
+                transform-origin: bottom right;
+              }
+            } 
+            
+            /*
+            [class$=demo] img {
+              vertical-align: top !important;
+              margin: 0 !important;
+              opacity: 0 !important;
+            }
+
+            body {
+              display: flex;
+              height: 100vh;
+            }
+            div {
+              margin: auto;
+            }
+
+            /*currImgQ1.hsl(0, 100%, 50%);
+            currImgQ2.hsl(0, 100%, 50%);*/
+
+
         </style>
     </head>
     <body>
-      
 
-        <div id="albumArt" class="hidden">
+      <div id="demoArt" class="demo">
+        <img src= "https://www.dropbox.com/s/9669thjwc8r83uk/Beatles_-_Abbey_Road.jpg?raw=1"
+             alt= "Abbey Road Dropbox" />
+        <!--Abbey_Road-->
+        <img src="./media/Sgt._Pepper's_Lonely_Hearts_Club_Band.jpg" alt = "Sgt Pepper's" />
+        <!--Sgt._Pepper's_Lonely_Hearts_Club_Band-->
+        <img src="./media/Rubber_Soul.jpg" alt = "Rubber Soul" />
+        <!--Rubber_Soul-->
+      </div>
+
+      <div id="demoArt" class="demo">
+        <img src="./media/Sgt._Pepper's_Lonely_Hearts_Club_Band.jpg" alt = "Sgt Pepper's" />
+        <!--Sgt._Pepper's_Lonely_Hearts_Club_Band-->
+        <img src="./media/Rubber_Soul.jpg" alt = "Rubber Soul" />
+        <!--Rubber_Soul-->
+        <img src= "https://www.dropbox.com/s/9669thjwc8r83uk/Beatles_-_Abbey_Road.jpg?raw=1"
+             alt= "Abbey Road Dropbox" />
+        <!--Abbey_Road-->
+      </div>
+
+      <div id="demoArt" class="demo">
+        <img src="./media/Rubber_Soul.jpg" alt = "Rubber Soul" />
+        <!--Rubber_Soul-->
+        <img src= "https://www.dropbox.com/s/9669thjwc8r83uk/Beatles_-_Abbey_Road.jpg?raw=1"
+             alt= "Abbey Road Dropbox" />
+        <!--Abbey_Road-->
+        <img src="./media/Sgt._Pepper's_Lonely_Hearts_Club_Band.jpg" alt = "Sgt Pepper's" />
+        <!--Sgt._Pepper's_Lonely_Hearts_Club_Band-->
+      </div>
+
+      <div id="albumArt" class="hidden">
         <img src= "https://www.dropbox.com/s/9669thjwc8r83uk/Beatles_-_Abbey_Road.jpg?raw=1"
              alt= "Abbey Road Dropbox" />
         <!--Abbey_Road-->
@@ -34,18 +240,32 @@
         <!--Sgt._Pepper's_Lonely_Hearts_Club_Band-->
         <img src="./media/TheBeatles-YellowSubmarinealbumcover.jpg" alt = "Yellow Submarine" />
         <!--YellowSubmarinealbumcover-->
+      </div>
 
-        </div>
+      <div id="canvases" class="canvas">
         <canvas id="q1Canvas" width="150" height="150" style="border:1px solid #000000;">
           </canvas>
+      </div>
+
+      <div class="canvas2">
         <canvas id="q2Canvas" width="150" height="150" style="border:1px solid #000000;">
           </canvas>
+      </div>
+
+      <div class="canvas3">
         <canvas id="q3Canvas" width="150" height="150" style="border:1px solid #000000;">
           </canvas>
+      </div>
+
+      <div class="canvas4">
         <canvas id="q4Canvas" width="150" height="150" style="border:1px solid #000000;">
         </canvas> 
+      </div>
+
+      <div class="compCanvas">
         <canvas id="compilationCanvas" width="300" height="300" style="border:1px solid #000000;">
         </canvas> 
+      </div>
 
         <script>
 
@@ -82,82 +302,54 @@
             var imgData;
             var pixels;   
 
-          /*  var imageElement = document.querySelector('./media/Beatles_-_Abbey_Road.jpg');
-            var chromata = new Chromata(albumArr[0]);
-
-            chromata.start();
-
-
-            /* var c = document.getElementById("myCanvas");
-            var ctx = c.getContext("2d");
-            currImg = albumArr[0];
-            console.log(currImg);
-            ctx.drawImage(currImg, 0, 0);
-            var imgData = ctx.getImageData(0, 0, c.width, c.height); */
-
-            /*for (i=0; i < imgCount; i++) {*/
-              /*q1 = document.getElementById("q1Canvas");
-              ctxq1 = q1.getContext("2d");
-              currImgQ1 = new Image();
-              img.onload = function() {
-                ctxq1.drawImage(currImgQ1, 0, 0, 150, 150, 0, 0, 150, 150);
-              };
-              currImgQ1.src =  'https://www.dropbox.com/s/9669thjwc8r83uk/Beatles_-_Abbey_Road.jpg?raw=1';
-              console.log(currImgQ1);
-              var imgDataQ1 = ctxq1.getImageData(0, 0, q1.width, q1.height);
-              console.log("imgDataQ1: " + imgDataQ1);*/
 
               window.onload = function() {
                 q1 = document.getElementById("q1Canvas");
                 ctxq1 = q1.getContext("2d");
                 currImgQ1 = albumArr[0];
                 console.log(currImgQ1);
+                /*imgDataQ1 = currImgQ1.getImageData(0, 0, 150, 150);
+                console.log("imgDataQ1: " + imgDataQ1);*/
                 ctxq1.drawImage(currImgQ1, 0, 0);
-                imgDataQ1 = ctxq1.getImageData(0, 0, 150, 150);
-                console.log("imgDataQ1: " + imgDataQ1);
-              
 
-              
+              }
+
                 q2 = document.getElementById("q2Canvas");
                 ctxq2 = q2.getContext("2d");
-                currImgQ2 = albumArr[1];
+                currImgQ2 = albumArr[8];
                 console.log(currImgQ2);
                 ctxq2.drawImage(currImgQ2, 150, 0, 150, 150, 0, 0, 150, 150);
-                imgDataQ2 = ctxq2.getImageData(0, 0, 150, 150);
-                console.log("imgDataQ2: " + imgDataQ2);
-              
-
+                /*imgDataQ2 = ctxq2.getImageData(0, 0, 150, 150);
+                console.log("imgDataQ2: " + imgDataQ2);*/
               
                 q3 = document.getElementById("q3Canvas");
                 ctxq3 = q3.getContext("2d");
-                currImgQ3 = albumArr[2];
+                currImgQ3 = albumArr[6];
                 console.log(currImgQ3);
                 ctxq3.drawImage(currImgQ3, 0, 150, 150, 150, 0, 0, 150, 150);
               
-
-              
                 q4 = document.getElementById("q4Canvas");
                 ctxq4 = q4.getContext("2d");
-                currImgQ4 = albumArr[3];
+                currImgQ4 = albumArr[7];
                 console.log(currImgQ4);
                 ctxq4.drawImage(currImgQ4, 150, 150, 150, 150, 0, 0, 150, 150);
                 /*imgData = ctxq4.getImageData(0, 0, 300, 300);
                 ctxq1.putImageData(imgData, 0, 0);
                 console.log("imgData: ", imgData);    */
-              }
+              
 
               compileCanvas = document.getElementById("compilationCanvas");
               compileCtx = compileCanvas.getContext("2d");
               currImgQ1 = albumArr[3];
               currImgQ2 = albumArr[8];
               currImgQ3 = albumArr[6];
-              currImgQ4 = albumArr[7];
+              currImgQ4 = albumArr[4];
               compileCtx.drawImage(currImgQ1, 0, 0, 150, 150, 0, 0, 150, 150);
               compileCtx.drawImage(currImgQ2, 150, 0, 150, 150, 150, 0, 150, 150);
               compileCtx.drawImage(currImgQ3, 0, 150, 150, 150, 0, 150, 150, 150);
               compileCtx.drawImage(currImgQ4, 150, 150, 150, 150, 150, 150, 150, 150);
               /*imgData = compileCtx.getImageData(0, 0, 300, 300);
-              /*compileCtx.putImageData(imgData, 0, 0);*/
+              /*compileCtx.putImageData(imgData, 0, 0);
               console.log("imgData: ", imgData); 
 
               /*pixels = imgData.data;
@@ -174,35 +366,10 @@
 
               */
 
-              console.log("pixelTotal: ", pixelTotal);
-              console.log("pixels: ", pixels);
+              /*console.log("pixelTotal: ", pixelTotal);
+              console.log("pixels: ", pixels);   */
 
               /*ctx.putImageData(imgData, 0, 0);*/
-
-              /*
-
-              for (j=0; j < imgData.data.length; j += 4) {
-                pixelTotal[j] += imgData.data[j];
-                pixelTotal[j + 1] += imgData.data[j + 1];
-                pixelTotal[j + 2] += imgData.data[j + 2];
-                pixelTotal[j + 3] += imgData.data[j + 3];
-              }
-
-              console.log("pixelTotal: ", pixelTotal);
-            }
-
-            /*  for (j=0; j < imgData.data.length; i += 4) {
-                pixelTotal[i] = imgData.data[i];
-                pixelTotal[i + 1] = imgData.data[i + 1];
-                pixelTotal[i + 2] = imgData.data[i + 2];
-                pixelTotal[i + 3] = imgData.data[i + 3];
-              }
-
-              for (k=0; k < imgData.data.length; i += 4) {
-
-              }
-            */
-
 
         </script>
     </body>
