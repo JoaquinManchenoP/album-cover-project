@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!-- This is the redirect page, which will access its own URL for an OAuth code, then run cURL commands in the terminal to gain access to the playlist image -->
+        <!-- This is the redirect page, which will access its own URL for an OAuth code, then run AJAX commands to access data from spotify about your specified playlist -->
         <meta charset="UTF-8"/>
         <title>Redirect</title>
         
         <script src = "jquery-3.5.1.js" ></script>
+        <link type = "text/css" rel = "stylesheet" href = "redirectStyle.css">
     </head>
     
     <body>
-        <script>  
-            //take redirect URL and extract access token
+        
+        <div id = "background"></div>
+        <div id = "main-back">
+            <div id = "main">
+                <div class = "formHolder">
+                    <form onSubmit = "return false;">
+                        <label for = "uri">Paste Spotify URI: </label>
+                        <input id = "uri" type = "text">
+                        <button type = "button" id = "submit" onclick = "authorize()">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            //add event listener to allow user to hit the enter key to submit playlist uri
+            document.getElementById("uri").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13){
+                    event.preventDefault();
+                    document.getElementById("submit").click();
+                }
+            });
+            
+            //get redirect URL and extract access token, returns string
             function getAccessToken(){
                 var url = window.location.href;
                 var tokenIndex = url.indexOf('=')+1;
@@ -19,7 +42,7 @@
                 return token;
             }
             
-            //get user-entered URI
+            //get user-entered URI, returns string
             function getURI(){
                 var raw = document.getElementById("uri").value;
                 var uriIndex = raw.lastIndexOf(':') + 1;
@@ -27,12 +50,34 @@
                 return uri;
             }
             
+            //remove old DOM added divs to make way for new input
+            function removeOldData(){
+                var result = document.getElementById("preImg");
+                if (result !== null){
+                    result.remove();
+                }
+                
+                var dataDiv = document.getElementById("dataDiv");
+                if (dataDiv !== null){
+                    dataDiv.remove();
+                }
+            }
+            
+            //runs AJAX commands to get the playlist image, songs, and subsequently the audio feature data from each song, then displays the image via src and the average audio feature data in a form
             function authorize(){
+                removeOldData();
                 var token = getAccessToken();
                 var playlist = getURI();
+                
+                var trackList = []; //list of tracks in the playlist
+                var acousList = []; //list of the acousticness audio feature values
+                var danceList = []; //list of the danceability audio feature values
+                var valenList = []; //list of the valence audio feature values
+                
                 console.log(token);
                 //test: spotify:playlist:6yy1qCi95Z7HqHdphFlgn3
                 
+                //get the current image for the playlist **MUST BE DEFAULT IMAGE**
                 $.ajax({
                     url: "https://api.spotify.com/v1/playlists/"+ playlist +"/images",
                     dataType: "json",
@@ -40,21 +85,100 @@
                         "Authorization": "Bearer " + token
                     },
                     success: function(response){
-                        document.getElementById("playlistImage").src = response[1].url;
+                        var preImg = document.createElement("img");
+                        preImg.setAttribute("src", response[1].url);
+                        preImg.setAttribute("id", "preImg");
+                        preImg.setAttribute("width", "150px");
+                        preImg.setAttribute("height", "150px");
+                
+                        document.getElementById("main-back").prepend(preImg);
+                    }
+                })
+                
+                //access song URIs from the playlist
+                $.ajax({
+                    url: "https://api.spotify.com/v1/playlists/"+ playlist +"/tracks",
+                    dataType: "json",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    success: function(response){
+                        for (i = 0; i < response.items.length; i++){
+                            trackList[i] = response.items[i].track.id;
+                        }
+                        
+                        trackListLine = ""
+                        for (i = 0; i < trackList.length; i++){
+                            trackListLine += trackList[i] + ",";
+                        }
+                        
+                        //access audio features data; runs AJAX command for list of first 100 songs in the playlist
+                        $.ajax({
+                            url: "https://api.spotify.com/v1/audio-features/?ids=" + trackListLine,
+                            dataType: "json",
+                            headers: {
+                                "Authorization": "Bearer " + token
+                            },
+                            success: function(response){
+                                console.log(response);
+                                console.log(trackListLine);
+                                for (i = 0; i < trackList.length; i++){
+                                    acousList.push(response.audio_features[i].acousticness);
+                                    danceList.push(response.audio_features[i].danceability);
+                                    valenList.push(response.audio_features[i].valence);
+                                }
+                                    
+                                if (valenList.length >= trackList.length){
+                                    console.log(acousList);
+                                    console.log(danceList);
+                                    console.log(valenList);
+                                    //find average value for acousticness
+                                    var acousticness = 0.0;
+                                    for (i = 0; i < acousList.length; i++){
+                                        acousticness += acousList[i];
+                                    }
+                                    acousticness /= parseFloat(acousList.length);
+                                    acousticnessStr = acousticness.toFixed(3);
+                
+                                    //find average value for danceability
+                                    var danceability = 0.0;
+                                    for (i = 1; i < danceList.length; i++){
+                                        danceability += danceList[i];
+                                    }
+                                    danceability /= parseFloat(danceList.length);
+                                    danceabilityStr = danceability.toFixed(3);
+                
+                                    //find average value for valence
+                                    var valence = 0.0;
+                                    for (i = 2; i < valenList.length; i += 3){
+                                        valence += valenList[i];
+                                    }
+                                    valence /= parseFloat(valenList.length);
+                                    valenceStr = valence.toFixed(3);
+                
+                
+                                    //create DOM elements to display data
+                                    
+                                    var dataDiv = document.createElement("div");
+                                    dataDiv.className = "formHolder";
+                                    dataDiv.setAttribute("id", "dataDiv")
+                                    dataDiv.style.marginTop = "20px";
+                                    var data1 = document.createTextNode("acousticness: " + acousticnessStr);
+                                    var data2 = document.createTextNode("danceability: " + danceabilityStr);
+                                    var data3 = document.createTextNode("valence: " + valenceStr);
+                
+                                    dataDiv.appendChild(data1);
+                                    dataDiv.appendChild(document.createElement("br"));
+                                    dataDiv.appendChild(data2);
+                                    dataDiv.appendChild(document.createElement("br"));
+                                    dataDiv.appendChild(data3);
+                                    document.getElementById("main").appendChild(dataDiv);
+                                }
+                            }
+                        }) 
                     }
                 })
             }
         </script>
         
-        <form>
-            <label for = "uri">Spotify URI: </label>
-            <input type = "text" id = "uri">
-            <div onclick = "authorize()">Click Me!</div>
-        </form>
-        
-        <p>
-            Your token should appear in the console.
-        </p>
-        
-        <img id = "playlistImage">
     </body>

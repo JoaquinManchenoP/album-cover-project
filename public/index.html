@@ -4,7 +4,8 @@
         <!-- This page introduces the user to the website, then redirects them to the actual program-->
         <!-- http://bradleyna.stu.cofc.edu/public/index.html -->
         <meta charset="UTF-8"/>
-        <title>Start</title>
+        <title>Create Your Own Playlist Cover</title>
+        <link type = "text/css" rel = "stylesheet" href = "indexStyle.css">
     </head>
     
     <body>
@@ -13,5 +14,26 @@
                 window.location.replace("https://accounts.spotify.com/authorize?client_id=3c89b357d36647f2b058a16d816e88a8&scope=playlist-read-private&response_type=token&redirect_uri=http%3A%2F%2Fbradleyna.stu.cofc.edu%2Fpublic%2Fredirect.html")
             }
         </script>
-        <div class = "button" onclick = "redirect()">Let's Start!</div>
+        <div id = "background"></div>
+        <div id = "main-back">
+            <div id = "main">
+                <div id = "header">
+                    <h1>Welcome to the Playlist Image Creator</h1>
+                </div>
+                <div id = "buttonHolder">
+                    <form>
+                        <button type = "button" onclick = "redirect()">Click Here to Start!</button>
+                    </form>
+                </div>
+                <div id = "info">
+                    <p>This website allows you to create a custom image for your Spotify playlist! The images are produced procedurally based on Spotify's own audio information for the first 100 songs in your playlist. All you need is the Spotify URI for your playlist.</p>
+                    <p>Here's how to find your Spotify URI</p>
+                    <ol>
+                        <li>Go to your desired playlist's page in the Spotify desktop app</li>
+                        <li>Right click on the image next to the playlist title</li>
+                        <li>Go to the share option, then select "Copy Spotify URI"</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </body>

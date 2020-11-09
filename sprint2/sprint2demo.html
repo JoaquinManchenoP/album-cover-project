@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- This is a demo for the visual style of the Spotify Album Cover Image Manipulation Project-->
+        <!-- This page simulates the working process of the final website-->
+        <meta charset="UTF-8"/>
+        <title>Create Your Playlist Cover</title>
+        <link type = "text/css" rel = "stylesheet" href = "sprint2.css">
+    </head>
+    <body>
+        <div id = "background"></div>
+        <div id = "main-back">
+            <div id = "main">
+                <div class = "form">
+                    <form onSubmit = "return false;">
+                        <label for = "uri">Paste Spotify URI: </label>
+                        <input id = "uri" type = "text">
+                        <button type = "button" id = "play" onclick = "playDemo()">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            document.getElementById("uri").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13){
+                    event.preventDefault();
+                    document.getElementById("play").click();
+                }
+            });
+            
+            function playDemo(){
+                var dataDiv = document.createElement("div");
+                dataDiv.className = "form";
+                dataDiv.style.marginTop = "20px";
+                var data1 = document.createTextNode("danceability: 0.4");
+                var data2 = document.createTextNode("valence: 0.122");
+                var data3 = document.createTextNode("acousticness: 0.677");
+                
+                dataDiv.appendChild(data1);
+                dataDiv.appendChild(document.createElement("br"));
+                dataDiv.appendChild(data2);
+                dataDiv.appendChild(document.createElement("br"));
+                dataDiv.appendChild(data3);
+                document.getElementById("main").appendChild(dataDiv);
+                
+                
+                
+                var resultDiv = document.createElement("div");
+                resultDiv.setAttribute("id", "result");
+                
+                var resultImg1 = document.createElement("img");
+                resultImg1.className = "resultImg";
+                resultImg1.setAttribute("src", "HSL-Pink_Floyd_-_Dark_Side_of_the_Moon.jpg");
+                resultImg1.style.float = "right";
+                
+                var resultImg2 = document.createElement("img");
+                resultImg2.className = "resultImg";
+                resultImg2.setAttribute("src", "HSL-Beatles_-_Abbey_Road.jpg");
+                
+                var resultImg3 = document.createElement("img");
+                resultImg3.className = "resultImg";
+                resultImg3.setAttribute("src", "HSL-Beatles_-_Abbey_Road.jpg");
+                resultImg3.style.float = "right";
+                
+                var resultImg4 = document.createElement("img");
+                resultImg4.className = "resultImg";
+                resultImg4.setAttribute("src", "HSL-Rubber_Soul.jpg");
+                
+                document.getElementById("main-back").prepend(resultDiv);
+                document.getElementById("result").appendChild(resultImg1);
+                document.getElementById("result").appendChild(resultImg2);
+                document.getElementById("result").appendChild(resultImg3);
+                document.getElementById("result").appendChild(resultImg4);
+                
+            }
+        </script>
+    </body>
