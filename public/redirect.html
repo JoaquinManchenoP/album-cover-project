@@ -24,6 +24,7 @@
             </div>
         </div>
         
+        
         <script>
             //add event listener to allow user to hit the enter key to submit playlist uri
             document.getElementById("uri").addEventListener("keyup", function(event) {
@@ -52,19 +53,36 @@
             
             //remove old DOM added divs to make way for new input
             function removeOldData(){
-                var result = document.getElementById("preImg");
-                if (result !== null){
-                    result.remove();
+                //remove image
+                var preImg = document.getElementById("preImg");
+                if (preImg !== null){
+                    preImg.remove();
                 }
                 
+                //remove data
                 var dataDiv = document.getElementById("dataDiv");
                 if (dataDiv !== null){
                     dataDiv.remove();
+                }
+                
+                //remove canvas
+                var postImg = document.getElementById("postImg");
+                if (postImg !== null){
+                    postImg.remove();
+                }
+                
+                //remove download button
+                var download = document.getElementById("download");
+                if (download !== null){
+                    download.remove();
                 }
             }
             
             //runs AJAX commands to get the playlist image, songs, and subsequently the audio feature data from each song, then displays the image via src and the average audio feature data in a form
             function authorize(){
+                
+                document.getElementById("background").style.height = "130%";
+                
                 removeOldData();
                 var token = getAccessToken();
                 var playlist = getURI();
@@ -91,7 +109,7 @@
                         preImg.setAttribute("width", "150px");
                         preImg.setAttribute("height", "150px");
                 
-                        document.getElementById("main-back").prepend(preImg);
+                        document.getElementById("main").prepend(preImg);
                     }
                 })
                 
@@ -107,6 +125,7 @@
                             trackList[i] = response.items[i].track.id;
                         }
                         
+                        //convert track list to single string without spaces
                         trackListLine = ""
                         for (i = 0; i < trackList.length; i++){
                             trackListLine += trackList[i] + ",";
@@ -122,6 +141,7 @@
                             success: function(response){
                                 console.log(response);
                                 console.log(trackListLine);
+                                //add audio feature values to respective lists
                                 for (i = 0; i < trackList.length; i++){
                                     acousList.push(response.audio_features[i].acousticness);
                                     danceList.push(response.audio_features[i].danceability);
@@ -142,15 +162,16 @@
                 
                                     //find average value for danceability
                                     var danceability = 0.0;
-                                    for (i = 1; i < danceList.length; i++){
+                                    for (i = 0; i < danceList.length; i++){
                                         danceability += danceList[i];
                                     }
                                     danceability /= parseFloat(danceList.length);
+                                    console.log("danceability = " + danceability);
                                     danceabilityStr = danceability.toFixed(3);
                 
                                     //find average value for valence
                                     var valence = 0.0;
-                                    for (i = 2; i < valenList.length; i += 3){
+                                    for (i = 0; i < valenList.length; i++){
                                         valence += valenList[i];
                                     }
                                     valence /= parseFloat(valenList.length);
@@ -158,7 +179,6 @@
                 
                 
                                     //create DOM elements to display data
-                                    
                                     var dataDiv = document.createElement("div");
                                     dataDiv.className = "formHolder";
                                     dataDiv.setAttribute("id", "dataDiv")
@@ -172,7 +192,60 @@
                                     dataDiv.appendChild(data2);
                                     dataDiv.appendChild(document.createElement("br"));
                                     dataDiv.appendChild(data3);
+                                    
                                     document.getElementById("main").appendChild(dataDiv);
+                                    
+                                    //create manipulated image based on audio feature element values
+                                    $.ajax({
+                                        url: "https://api.spotify.com/v1/playlists/"+ playlist +"/images",
+                                        dataType: "json",
+                                        headers: {
+                                            "Authorization": "Bearer " + token
+                                        },
+                                        success: function(response){
+                                            var cover = document.createElement("img");
+                                            cover.setAttribute("src", response[1].url);
+                                            
+                                            
+                                            var postImg = document.createElement("canvas");//create new canvas for result
+                                            postImg.setAttribute("id", "postImg");
+                                            postImg.setAttribute("display", "block");
+                                            postImg.setAttribute("width", "300px");
+                                            postImg.setAttribute("height", "300px");
+                                            
+                                            var ctx = postImg.getContext("2d");
+                                            
+                                            //less acousticness = more saturation
+                                            var saturation = (1 - acousticness) * 300;
+                                            
+                                            //more danceability = more hue rotation
+                                            var hueRotate = danceability * 360;
+                                            
+                                            //less valence = more sepia
+                                            var sepia = ((1 - valence) * 100) - 50;
+                                            
+                                            //set canvas filter
+                                            ctx.filter = "saturate(" + saturation + "%) hue-rotate(" + hueRotate + "deg) sepia(" + sepia + "%)";
+                                            
+                                            
+                                            ctx.drawImage(cover, 0, 0, 150, 150, 0, 0, 300, 300) //background image
+                                            
+                                            
+                                            ctx.globalCompositeOperation = "overlay";
+                                            ctx.drawImage(cover, 150, 0, 150, 150, 0, 0, 200, 200);
+                                            ctx.drawImage(cover, 0, 150, 150, 150, 75, 75, 200, 200);
+                                            ctx.drawImage(cover, 150, 150, 150, 150, 150, 150, 200, 200);
+                                            
+                                            document.getElementById("main").appendChild(postImg);
+                                            
+                                            var download = document.createElement("button");
+                                            download.setAttribute("id", "download");
+                                            download.setAttribute("float", "left");
+                                            download.innerHTML = "Download Image";
+                                            
+                                            document.getElementById("main-back").appendChild(download);
+                                        }
+                                    })
                                 }
                             }
                         }) 
